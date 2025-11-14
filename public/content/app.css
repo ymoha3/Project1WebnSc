@@ -1,0 +1,16 @@
+body { 
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+    /* Blue to yellow gradient background */
+    background: linear-gradient(to bottom right , #007bff, #ffeb3b);
+
+   /* Ensure background covers the full viewport */
+   min-height: 100vh;
+   margin: 0;
+    background-attachment: fixed; /* Keeps gradient static during scroll */
+  }
+
+  a {
+   color: #00B7FF;
+  }
