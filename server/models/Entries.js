@@ -5,13 +5,13 @@ let mongoose = require ("mongoose");
 let entriesModel = mongoose.Schema(
     {
     
-    Year: Number,
-    Month: Number,
-    Date: Number,
     EntryNum: Number,
     Title: String,
-    Message:String
-
+    Message:String,
+    Date: Number,
+    Month: Number,
+    Year: Number
+    
     },
     {
         collection: "Entries"    

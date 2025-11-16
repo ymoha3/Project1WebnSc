@@ -49,7 +49,7 @@ router.get('/add', async(req,res,next)=>{
 
 })
 //post route for processing the Add page - Create
-router.get('/add', async(req,res,next)=>{
+router.post('/add', async(req,res,next)=>{
     try
     {
         let newEntries = Entries({
@@ -73,18 +73,64 @@ router.get('/add', async(req,res,next)=>{
     }
 })
 //get route for displaying the Edit page - Update
-router.get('/edit/:id', async(req,res,next)=>{
-
-
+router.get('/edit/:id', async(req, res, next)=>{
+    try{
+        const id = req.params.id;
+        const EntriesToEdit = await Entries.findById(id);
+        res.render("Entries/edit",
+            {
+                title: 'Edit Entry',
+                Entries: EntriesToEdit
+            }
+        )
+    }
+    catch(err)
+    {
+        console.log(err);
+        next(err);
+    }
 })
 //post route for processing the Edit page - Update
-router.get('/edit:/id', async(req,res,next)=>{
-
+router.post('/edit/:id', async(req,res,next)=>{
+    try
+    {
+        let id = req.params.id;
+        let updateEntries = Entries({
+            "_id": id,
+            "EntryNum":req.body.EntryNum,
+            "Title":req.body.Title,
+            "Message":req.body.Message,
+            "Date": req.body.Date,
+            "Month": req.body.Month,
+            "Year": req.body.Year
+        })
+        Entries.findByIdAndUpdate(id,updateEntries).then(()=>{
+            res.redirect("/Entries")
+        })
+    }
+      catch(err)
+    {
+        console.log(err);
+        next(err);
+    }
 
 })
 //get route for preforming Delete operation - Delete
 router.get('/delete/:id', async(req,res,next)=>{
+    try
+    {
+        let id = req.params.id;
+        Entries.deleteOne({_id:id}).then(()=>{
+            res.redirect("/Entries")
+        })
 
+    }
+      catch(err)
+    {
+        console.log(err);
+        next(err);
+    }
+    
 
 })
 
