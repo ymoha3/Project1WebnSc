@@ -6,10 +6,13 @@
         <div class="offset-md-1 col-md-10">
             <h1><%= title %></h1>
             <br>
+             <% if(typeof displayName == 'string' && displayName) { %>
             <a href = "/Entries/add" class="btn btn-primary" role = "button">
                 <i class="fas fa-plus-circle"></i> Add an entry
             </a> 
+            <% } %>
             <table class="table table-bordred table-striped table-hover">
+                <% if(typeof displayName == 'string' && displayName) { %>
                 <!-- header row-->
                 <tr class="d-flex">
                     <th class="text-center col-2">EntryNum</th>
@@ -18,6 +21,8 @@
                     <th class="text-center col-1">Date</th>
                     <th class="text-center col-2">Month</th>
                     <th class="text-center col-1">Year</th> 
+                    <th class="text-center col-1"></th> 
+                    <th class="text-center col-1"></th> 
                 </tr>
                 <!-- Repeat the code to read all the data -->
                  <% for (let count = 0; count<EntriesList.length;count++) { %>
@@ -41,6 +46,30 @@
                     
                  </tr>
               <%  } %>
+              <% } else { %>
+                
+                <!-- header row-->
+                <tr class="d-flex">
+                    <th class="text-center col-2">EntryNum</th>
+                    <th class="text-center col-2">Title</th>
+                    <th class="text-center col-3">Message</th>
+                    <th class="text-center col-1">Date</th>
+                    <th class="text-center col-2">Month</th>
+                    <th class="text-center col-1">Year</th> 
+                </tr>
+                <!-- Repeat the code to read all the data -->
+                 <% for (let count = 0; count<EntriesList.length;count++) { %>
+                <tr class="d-flex">
+                    <td class="text-center col-2"><%= EntriesList[count].EntryNum%></td>
+                    <td class="text-center col-2"><%= EntriesList[count].Title%></td>
+                    <td class="text-center col-3"><%= EntriesList[count].Message%></td>
+                    <td class="text-center col-1"><%= EntriesList[count].Date%></td>
+                    <td class="text-center col-2"><%= EntriesList[count].Month%></td>
+                    <td class="text-center col-1"><%= EntriesList[count].Year%></td>
+                    
+                 </tr>
+                 <% } %>
+                 <% } %>
             </table>
         </div>
     </div>

@@ -1,47 +1,66 @@
 var express = require('express');
 var router = express.Router();
 const passport = require('passport');
-let Db = require ('../config/db');
+let DB = require ('../config/db');
 let userModel = require('../models/user');
 let User = userModel.User;
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Home', 
+  displayName: req.user?req.user.displayName:""
+  });
+  
+  
 });
 
 /* GET home page. */
 router.get('/home', function(req, res, next) {
-  res.render('home', { title: 'Home' });
+  res.render('home', { title: 'Home',
+    displayName: req.user?req.user.displayName:""
+  });
 });
 
 /* GET About Me page. */
 router.get('/aboutme', function(req, res, next) {
-  res.render('aboutme', { title: 'About' });
+  res.render('aboutme', { title: 'About',
+    displayName: req.user?req.user.displayName:""
+   });
 });
 
 
 // get method for login
-router.get('/login', function(req,res,next){
-  if (!req.user)
-  {
-    res.render('auth/login',
-      {
-      title:'Login',
+router.get('/login', function(req, res, next) {
+  if (!req.user) {
+    res.render('auth/login', {
+      title: 'Login',
       message: req.flash('loginMessage')
-      }
-    )
-  }
-  else
-  {
-    return res.redirect("/")
+    });
+  } else {
+    return res.redirect('/');
   }
 });
 
 // Post method for login
-router.get('/login', function(req,res,next){
-
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      req.flash('loginMessage', 'AuthenticationError');
+      return res.redirect('/login');
+    }
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/Entries');
+    });
+  })(req, res, next);
 });
+
 
 // get method for register
 router.get('/register', function(req,res,next){

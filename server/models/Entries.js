@@ -2,7 +2,7 @@ let mongoose = require ("mongoose");
 
 //Create a model
 
-let entriesModel = mongoose.Schema(
+let EntriesModel = mongoose.Schema(
     {
     
     EntryNum: Number,
@@ -17,5 +17,5 @@ let entriesModel = mongoose.Schema(
         collection: "Entries"    
     }
 );
-module.exports=mongoose.model('Entries',entriesModel);
+module.exports=mongoose.model('Entries',EntriesModel);
 

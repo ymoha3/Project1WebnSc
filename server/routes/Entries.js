@@ -2,6 +2,14 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 let Entries = require('../models/Entries');
+function requireAuth (req,res,next)
+{
+    if (! req.isAuthenticated())
+    {
+        return res.redirect('/login')
+    }
+    next ();
+}
 
 // get -- extract and read
 // post -- post something
@@ -17,7 +25,8 @@ router.get('/',async(req,res,next)=>{
         console.log(EntriesList);
         res.render('Entries/list',{
             title: 'Diary Entries',
-            EntriesList:EntriesList
+            EntriesList:EntriesList,
+            displayName: req.user?req.user.displayName:""
         })
     }
     catch(err)
@@ -34,7 +43,8 @@ router.get('/',async(req,res,next)=>{
 router.get('/add', async(req,res,next)=>{
     try{
         res.render('Entries/add',{
-            title:'Add an Entry'
+            title:'Add an Entry',
+            displayName: req.user?req.user.displayName:""
 
         })
 
@@ -80,7 +90,8 @@ router.get('/edit/:id', async(req, res, next)=>{
         res.render("Entries/edit",
             {
                 title: 'Edit Entry',
-                Entries: EntriesToEdit
+                Entries: EntriesToEdit,
+                displayName: req.user?req.user.displayName:""
             }
         )
     }
@@ -102,7 +113,7 @@ router.post('/edit/:id', async(req,res,next)=>{
             "Message":req.body.Message,
             "Date": req.body.Date,
             "Month": req.body.Month,
-            "Year": req.body.Year
+            "Year": req.body.Year,
         })
         Entries.findByIdAndUpdate(id,updateEntries).then(()=>{
             res.redirect("/Entries")
