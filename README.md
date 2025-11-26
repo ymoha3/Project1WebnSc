@@ -44,11 +44,14 @@ entries.js: Defines get, post, put, and delete routes for Entries in the databas
 	Models/
 Defines Mongoose schemas for MongoDB collections. Each file corresponds to a database collection.
 Entries.js: Defines the structure of an entry (fields, data types, validations)
+user.js: Defines a Mongoose schema for users and adds Passport-Local-Mongoose to handle username/password authentication.
 	views/
 	Contains HTML or template files rendered by Express:
 about.html/about.ejs: About page content 
 index.hmtl/index.ejs: Homepage or main view
 Templates can reference frontend assets (images, CSS, JS) from the public folder
+auth/login.ejs: Renders the login page with shared partials, error handling, and a secure login form
+auth/register.ejs: Handles the register function on the webpage
 
 	public/
 	Static assets served by backend (Express uses express.static() to serve files)
